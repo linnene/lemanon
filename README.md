@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/lemanon-logo.png" alt="Lemanon lemon logo" width="148">
+</p>
+
 # Lemanon
 
 **Pick up where the last agent left off.**
