@@ -1,0 +1,7 @@
+interface:
+  display_name: "Lemanon"
+  short_description: "Continuity for long-running agent projects"
+  default_prompt: "Use $lemanon onboard to recover this project's current state."
+
+policy:
+  allow_implicit_invocation: false
