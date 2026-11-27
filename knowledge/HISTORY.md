@@ -6,3 +6,5 @@
   read-only audit, lifecycle references, templates, adapter, and synthetic
   walkthrough with remote tests.
 - 2026-11-27 — Began self-hosted release validation before public publication.
+- 2026-11-27 — Published `linnene/lemanon` publicly; initial GitHub Actions
+  checks passed on `main`.

@@ -12,7 +12,8 @@ or background service.
 
 ## Status
 
-Lemanon v0.1 is being prepared for its first public release.
+Lemanon v0.1 is public and installable. The default branch remains the source
+of current development state; tagged releases mark verified publication points.
 
 ## Install
 

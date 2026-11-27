@@ -1,6 +1,6 @@
 # Current status
 
-- Status: 🟡 pre-release validation
+- Status: 🟢 v0.1 published
 - Last verified: 2026-11-27
 
 ## Verified facts
@@ -10,18 +10,18 @@
 - Audit is read-only and redacts matched credential and personal-path values.
 - Codex installation, a thin Claude Code adapter, and a synthetic walkthrough
   are documented.
+- The public repository is visible at `https://github.com/linnene/lemanon` and
+  its initial `main` CI run passed at commit `67de12a`.
 
 ## Active work
 
-- Complete release metadata, privacy review, public repository creation, and
-  public CI verification.
+- Tag v0.1.0 after the synchronized publication-state commit passes public CI.
 
 ## Blockers and unresolved claims
 
-- Public repository visibility and public CI have not yet been verified.
 - Behavioral pressure-testing with independent agents has not been performed.
 
 ## Next action
 
-Run the final remote suite and source audit, then publish only the verified
-commit under the explicitly authorized public repository.
+Collect real installation and handoff failures after the v0.1.0 tag without
+collecting private project content.

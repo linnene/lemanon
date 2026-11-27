@@ -2,13 +2,14 @@
 
 ## Current phase
 
-Prepare and verify the public v0.1 release.
+Maintain the public v0.1 release and collect concrete adoption failures.
 
 ## Entry and exit gates
 
-The release gate requires a clean remote unit suite, a clean repository audit,
-no private project identifiers or infrastructure in public source, and a
-passing public CI run at the published commit.
+The completed release gate required a clean remote unit suite, a clean
+repository audit, no private project identifiers or infrastructure in public
+source, and a passing public CI run at the published commit. Future tags must
+meet the same gate.
 
 ## Future phases
 
