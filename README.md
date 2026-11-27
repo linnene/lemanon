@@ -1,23 +1,23 @@
 # Lemanon
 
-**Continuity skills for long-running agent projects.**
+**Pick up where the last agent left off.**
 
-Lemanon is an installable, Git-native skill for creating and maintaining a
-Markdown project knowledge base across chats, context compaction, and agent
-handoffs.
+Lemanon is a Git-native skill that gives Codex and Claude Code a shared project
+knowledge base. After a chat restart or context compaction, an agent can find
+the current status, see why decisions were made, and verify a handoff by
+following a few Markdown files.
 
-The first release targets Codex, with a thin Claude Code adapter, and keeps
-every generated project usable without Lemanon. It does not require a database
-or background service.
+[![Version v0.1.0](https://img.shields.io/badge/version-v0.1.0-445ad4)](https://github.com/linnene/lemanon/tree/v0.1.0)
+[![CI](https://github.com/linnene/lemanon/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/linnene/lemanon/actions/workflows/checks.yml)
+[![MIT license](https://img.shields.io/badge/license-MIT-16845b)](LICENSE)
 
-## Status
-
-Lemanon v0.1 is public and installable. The default branch remains the source
-of current development state; tagged releases mark verified publication points.
+[Quick start](#install) · [Workflow](#lifecycle) · [Example](examples/sample-project/README.md)
 
 ## Install
 
-Clone this repository, then expose the canonical skill directory to Codex:
+### Codex
+
+Clone Lemanon into a directory you plan to keep, then link the skill into Codex:
 
 ```sh
 git clone https://github.com/linnene/lemanon.git
@@ -25,38 +25,54 @@ mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 ln -s "$PWD/lemanon/skills/lemanon" "${CODEX_HOME:-$HOME/.codex}/skills/lemanon"
 ```
 
-Restart Codex if the skill is not discovered immediately. Invocation is
-explicit by design: start with `$lemanon init` inside the intended project.
-Lemanon never selects an external server or expands task authorization.
+Open the project you want to initialize. In the Codex chat, run
+`$lemanon init`. If Codex does not discover the skill, restart it.
 
-For Claude Code, follow
-[`adapters/claude-code/README.md`](adapters/claude-code/README.md). The adapter
-delegates to the same `skills/lemanon/SKILL.md`; it is not an independent fork.
+### Claude Code
+
+Install the [Claude Code adapter](adapters/claude-code/README.md), then run
+`/lemanon init` in your project. Both hosts use the same workflow.
 
 ## Lifecycle
 
-- `$lemanon init` adds only missing core knowledge files and preserves existing
-  rules.
-- `$lemanon onboard` reads rules and hot state before opening relevant history.
-- `$lemanon handoff` records a producer-owned recovery snapshot.
-- `$lemanon receive` verifies another producer's claims without rewriting them.
-- `$lemanon close` promotes supported outcomes into durable current state.
-- `$lemanon audit` performs a read-only structure, privacy, and provenance
-  review.
+Set up the knowledge base once. In a new session, use `onboard` to recover
+context. When another agent takes over unfinished work, use `handoff` on the
+sending side and `receive` on the receiving side.
 
-The normal path is `init` once, `onboard` at the start of a session, `handoff`
-when work changes owner, `receive` by the next owner, and `close` when supported
-outcomes can be synchronized. Run `audit` before sharing or after substantial
-knowledge changes. See the synthetic
-[`sample-project`](examples/sample-project/README.md) walkthrough.
+| Codex command | What it does |
+| --- | --- |
+| `$lemanon init` | Add missing knowledge files and preserve existing project rules. |
+| `$lemanon onboard` | Read project rules and current status, then open relevant background. |
+| `$lemanon handoff` | Record the branch, commit, evidence, blockers, and next action. |
+| `$lemanon receive` | Verify the handoff against its sources and record what was confirmed. |
+| `$lemanon close` | Update project status and history with supported outcomes. |
+| `$lemanon audit` | Check for missing files, broken links, stale status, and possible sensitive content in a read-only pass. |
+
+Follow the full workflow in the [Signal Garden example](examples/sample-project/README.md).
+
+## What lives in your repo
+
+```text
+knowledge/
+├── AGENTS.md    Rules for maintaining the knowledge base
+├── README.md    Index and entry points
+├── PROJECT.md   Purpose, scope, and success criteria
+├── STATUS.md    Current state, open questions, and next action
+├── ROADMAP.md   Planned work and decision gates
+├── SOURCES.md   Pointers to evidence and artifacts
+├── HISTORY.md   Milestones and superseded state
+├── LESSONS.md   Failed approaches and lessons worth keeping
+└── handoffs/    Producer records and receiver notes
+```
+
+The repository root's `AGENTS.md` can point agents to these files. Commit the
+Markdown alongside your code so future sessions can recover the context from
+the same Git checkout. Keep large artifacts in their original location and
+record their addresses in the knowledge base.
 
 ## Uninstall
 
-Remove the installed skill link or copied `lemanon` skill directory and, if
-used, the Claude Code command adapter. The generated project knowledge remains ordinary Markdown under version control and continues to work without Lemanon.
-Do not automatically delete a project's `knowledge/` directory during
-uninstall.
+Remove the installed skill link or directory and the Claude Code adapter if
+installed. Your knowledge base remains ordinary Markdown under version control.
 
-## License
-
-MIT
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [MIT License](LICENSE)
